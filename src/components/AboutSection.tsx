@@ -31,11 +31,6 @@ const AboutSection: React.FC = () => {
     threshold: 0.8,
   });
 
-  const cardClasses = (idx: number) =>
-    `gradient-border p-6 rounded-2xl bg-secondary/10 transform transition-all duration-300 ease-in
-   ${inView ? "opacity-100 translate-x-0" : "opacity-0 translate-x-36"}
-   hover:scale-[1.03] delay-${(idx + 1) * 100}`;
-
   return (
     <section id="about" className="py-12 px-4 relative">
       <div className="container mx-auto max-w-5xl">
@@ -75,7 +70,13 @@ const AboutSection: React.FC = () => {
           {/* RIGHT CARDS */}
           <div ref={ref} className="grid grid-cols-1 gap-6">
             {cards.map((card, index) => (
-              <div key={card.title} className={cardClasses(index)}>
+              <div
+                key={card.title}
+                className={`gradient-border p-6 rounded-2xl bg-secondary/10 transform transition-all duration-300 ease-in
+    ${inView ? "opacity-100 translate-x-0" : "opacity-0 translate-x-36"}
+    hover:scale-[1.03]`}
+                style={{ transitionDelay: `${index * 150}ms` }}
+              >
                 <div className="flex items-start gap-4">
                   <div className="p-3 rounded-full bg-primary/10">
                     {card.icon}
