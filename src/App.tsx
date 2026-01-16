@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import IsDarkModeContext from "./context/IsDarkModeContext";
 import Home from "./pages/Home";
@@ -6,6 +6,11 @@ import NotFound from "./pages/NotFound";
 
 const App: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", isDarkMode);
+    localStorage.setItem("theme", isDarkMode ? "dark" : "light");
+  }, [isDarkMode]);
 
   return (
     <IsDarkModeContext.Provider value={{ isDarkMode, setIsDarkMode }}>
