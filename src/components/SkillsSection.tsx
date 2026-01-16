@@ -82,7 +82,7 @@ const SkillsSection: React.FC = () => {
           <button
             key={category}
             onClick={() => setActiveCategory(category)}
-            className="relative px-6 py-2 font-semibold text-secondary hover:text-secondary transition"
+            className="relative mt-2 px-6 py-2 font-semibold text-secondary hover:text-secondary transition"
           >
             <span
               className={`${
