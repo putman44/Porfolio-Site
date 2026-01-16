@@ -85,9 +85,9 @@ const Navbar: React.FC = () => {
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div
-              initial={{ opacity: 0, y: 0 }}
+              initial={{ opacity: 0, y: -100 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
+              exit={{ opacity: 0, y: -100 }}
               transition={{ type: "spring", stiffness: 280, damping: 30 }}
               className="fixed h-fit inset-0 z-40 flex flex-col items-center justify-center bg-background md:hidden"
             >
