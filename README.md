@@ -90,7 +90,7 @@ src/
 
 ```bash
 # Clone the repository
-git clone https://github.com/putman44/portfolio-website.git
+git clone https://github.com/putman44/Porfolio-Site.git
 cd portfolio-website
 
 # Install dependencies
@@ -101,6 +101,3 @@ npm run dev
 ```
 
 ---
-
-
-
