@@ -29,7 +29,7 @@ const projects: Project[] = [
     description:
       "A web application to search, manage, and save Spotify playlists. Built with React, JavaScript, and Spotify Web API, this app allows users to create playlists, add tracks, and manage tracks efficiently.",
     image: "SpotifyPlaylistManager.png",
-    tags: ["React", "TailwindCSS", "Javascript", "OAuth2"],
+    tags: ["React", "CSS Modules", "Javascript", "OAuth2"],
     demoUrl: "https://spotify-playlist-manager-alpha.vercel.app/",
     githubUrl: "https://github.com/putman44/Spotify-Playlist-Manager",
   },
