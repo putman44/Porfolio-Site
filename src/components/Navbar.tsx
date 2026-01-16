@@ -85,11 +85,11 @@ const Navbar: React.FC = () => {
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
               transition={{ type: "spring", stiffness: 280, damping: 30 }}
-              className="fixed inset-0 z-40 flex flex-col items-center justify-center bg-background md:hidden"
+              className="fixed h-fit inset-0 z-40 flex flex-col items-center justify-center bg-background md:hidden"
             >
               <div className="flex flex-col m-6 items-center space-y-8 text-xl">
                 {navItems.map((item) => (
