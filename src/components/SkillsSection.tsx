@@ -77,7 +77,7 @@ const SkillsSection: React.FC = () => {
       </h2>
 
       {/* ---------- CATEGORY TABS ---------- */}
-      <div className="flex justify-center gap-6 mb-10 relative">
+      <div className="md:flex justify-center gap-6 mb-10 relative">
         {categories.map((category) => (
           <button
             key={category}
