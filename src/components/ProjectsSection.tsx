@@ -14,7 +14,7 @@ interface Project {
 const projects: Project[] = [
   {
     id: 1,
-    title: "Flask REST API with PostgreSQL, Authentication, and Swagger UI",
+    title: "Production-Ready Service Management REST API",
     description:
       "A RESTful API for managing customers, mechanics, inventory parts, and service tickets, built with Flask, SQLAlchemy, and a relational database, featuring authentication, role-based access control, and Swagger UI documentation.",
     image: "MechanicsAPI.png",
