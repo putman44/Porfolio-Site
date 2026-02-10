@@ -40,8 +40,9 @@ const projects: Project[] = [
       "Interactive Trivia SPA is a dynamic, interactive quiz platform built with React. Users can select a category and difficulty, answer multiple-choice questions, and view their results at the end. The app demonstrates proficiency with modern React features, including hooks, useReducer for state management, contextual state lifting, API integration, and localStorage persistence.",
     image: "OpenTriviaDatabase.png",
     tags: ["React", "Javascript", "useReducer"],
-    demoUrl: "https://open-trivia-database-quiz-app.vercel.app/",
-    githubUrl: "https://github.com/putman44/Open-Trivia-Database-Quiz-App",
+    demoUrl: "https://interactive-trivia-spa.vercel.app/",
+    githubUrl:
+      "https://github.com/putman44/Interactive-Trivia-SPA/",
   },
 ];
 
