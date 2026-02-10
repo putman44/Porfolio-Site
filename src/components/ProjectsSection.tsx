@@ -37,7 +37,7 @@ const projects: Project[] = [
     id: 3,
     title: "Interactive-Trivia-SPA",
     description:
-      "The Trivia Quiz App is a dynamic, interactive quiz platform built with React. Users can select a category and difficulty, answer multiple-choice questions, and view their results at the end. The app demonstrates proficiency with modern React features, including hooks, useReducer for state management, contextual state lifting, API integration, and localStorage persistence.",
+      "Interactive Trivia SPA is a dynamic, interactive quiz platform built with React. Users can select a category and difficulty, answer multiple-choice questions, and view their results at the end. The app demonstrates proficiency with modern React features, including hooks, useReducer for state management, contextual state lifting, API integration, and localStorage persistence.",
     image: "OpenTriviaDatabase.png",
     tags: ["React", "Javascript", "useReducer"],
     demoUrl: "https://open-trivia-database-quiz-app.vercel.app/",
