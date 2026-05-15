@@ -83,7 +83,7 @@ const ContactSection: React.FC = () => {
 
                 <h4 className="font-medium hidden md:block"> Location</h4>
                 <a className="truncate hover:text-primary transition-colors">
-                  Thornton, NH
+                  Santa Fe, NM
                 </a>
               </div>
             </div>
