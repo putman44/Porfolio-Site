@@ -1,3 +1,4 @@
+// src/components/AboutSection.tsx
 import { Briefcase, Code, User } from "lucide-react";
 import { useInView } from "react-intersection-observer";
 
@@ -60,9 +61,12 @@ const AboutSection: React.FC = () => {
               </a>
               <a
                 className="px-6 py-2 rounded-full border border-primary text-primary hover:bg-primary/10 transition-colors duration-300"
-                href="#contact"
+                href="/Taylor_Putman_Resume.pdf"
+                download
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                Download CV
+                Download Resume
               </a>
             </div>
           </div>

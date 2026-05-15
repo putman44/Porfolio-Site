@@ -1,5 +1,6 @@
-import { ArrowDown } from "lucide-react";
+// src/components/HeroSection.tsx
 import { motion, useScroll, useTransform } from "framer-motion";
+import { ArrowDown } from "lucide-react";
 
 interface ParallaxLayerProps {
   y: any; // motion value
@@ -59,7 +60,8 @@ const HeroSection = () => {
         </h1>
 
         <p className="py-4 text-lg md:text-xl max-w-sm mx-auto opacity-0 animate-fade-in-delay-3">
-          I create stellar web experiences with modern technologies.
+          Full-Stack Software Engineer Building Industrial Software & AI-Driven
+          Systems
         </p>
 
         <div className="opacity-0 animate-fade-in-delay-4">

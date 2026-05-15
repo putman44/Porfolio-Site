@@ -1,3 +1,4 @@
+// src/components/Footer.tsx
 import { ArrowUp } from "lucide-react";
 
 const Footer: React.FC = () => {

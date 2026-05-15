@@ -1,3 +1,4 @@
+// src/components/ProjectsSection.tsx
 import { ArrowRight } from "lucide-react";
 import ProjectsCard from "./ProjectsCard";
 
@@ -14,9 +15,19 @@ interface Project {
 const projects: Project[] = [
   {
     id: 1,
+    title: "Field Force (Private Enterprise Project)",
+    description:
+      "A multi-tenant workflow management platform built for coordinating clients, vendors, and contractors in production environments. Developed secure backend services, relational data models, authentication workflows, and operational dashboards while collaborating directly with stakeholders. Project details and source code remain private under NDA.",
+    image: "FieldForce.png",
+    tags: ["React", "Python", "PostgreSQL", "SQLAlchemy", "JWT"],
+    demoUrl: "",
+    githubUrl: "",
+  },
+  {
+    id: 2,
     title: "Production-Ready Service Management REST API",
     description:
-      "A RESTful API for managing customers, mechanics, inventory parts, and service tickets, built with Flask, SQLAlchemy, and a relational database, featuring authentication, role-based access control, and Swagger UI documentation.",
+      "A production-style REST API for managing customers, service tickets, mechanics, and inventory workflows. Built with Flask, SQLAlchemy, JWT authentication, role-based access control, Swagger documentation, and relational database architecture.",
     image: "MechanicsAPI.png",
     tags: ["Flask", "Python", "SwaggerUI", "JWT Auth", "PostgreSQL"],
     demoUrl:
@@ -24,25 +35,24 @@ const projects: Project[] = [
     githubUrl: "https://github.com/putman44/Project-Advanced-API-Development",
   },
   {
-    id: 2,
+    id: 3,
     title: "Spotify Playlist Manager",
     description:
       "A web application to search, manage, and save Spotify playlists. Built with React, JavaScript, and Spotify Web API, this app allows users to create playlists, add tracks, and manage tracks efficiently.",
     image: "SpotifyPlaylistManager.png",
-    tags: ["React", "CSS Modules", "Javascript", "OAuth2"],
+    tags: ["React", "CSS Modules", "JavaScript", "OAuth2"],
     demoUrl: "https://spotify-playlist-manager-alpha.vercel.app/",
     githubUrl: "https://github.com/putman44/Spotify-Playlist-Manager",
   },
   {
-    id: 3,
+    id: 4,
     title: "Interactive-Trivia-SPA",
     description:
       "Interactive Trivia SPA is a dynamic, interactive quiz platform built with React. Users can select a category and difficulty, answer multiple-choice questions, and view their results at the end. The app demonstrates proficiency with modern React features, including hooks, useReducer for state management, contextual state lifting, API integration, and localStorage persistence.",
     image: "OpenTriviaDatabase.png",
-    tags: ["React", "Javascript", "useReducer"],
+    tags: ["React", "JavaScript", "useReducer"],
     demoUrl: "https://interactive-trivia-spa.vercel.app/",
-    githubUrl:
-      "https://github.com/putman44/Interactive-Trivia-SPA/",
+    githubUrl: "https://github.com/putman44/Interactive-Trivia-SPA/",
   },
 ];
 

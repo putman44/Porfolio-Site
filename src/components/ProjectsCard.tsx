@@ -1,3 +1,4 @@
+// src/components/ProjectsCard.tsx
 import { ExternalLink, Github } from "lucide-react";
 
 interface Project {
@@ -19,11 +20,12 @@ const ProjectsCard: React.FC<ProjectsCardProps> = ({ projects }) => {
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {projects.map((project) => (
         <div
-          className="group bg-secondary/10 rounded-lg overflow-hidden shadow-xs card-hover"
+          className="group bg-secondary/10 rounded-lg overflow-hidden shadow-md card-hover"
           key={project.id}
         >
           <div className="h-48 my-2 overflow-hidden ">
             <img
+              loading="lazy"
               className="w-fit mx-auto rounded-xl h-full object-contain transition-transform duration-500 group-hover:scale-110"
               src={project.image}
               alt={project.title}
@@ -44,25 +46,30 @@ const ProjectsCard: React.FC<ProjectsCardProps> = ({ projects }) => {
             <h3 className="text-xl line-clamp-1 font-semibold mb-1">
               {project.title}
             </h3>
-            <p className="text-sm mb-4 line-clamp-3">{project.description}</p>
+            <p className="text-sm mb-4 line-clamp-4">{project.description}</p>
             <div className="flex justify-between items-center">
               <div className="flex space-x-3">
-                <a
-                  className="p-2  rounded-3xl hover:bg-primary text-foreground/80 transition-colors duration-300"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href={project.demoUrl}
-                >
-                  <ExternalLink size={25} />
-                </a>
-                <a
-                  className="p-2  rounded-3xl text-foreground/80 hover:bg-primary transition-colors duration-300"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href={project.githubUrl}
-                >
-                  <Github size={25} />
-                </a>
+                {project.demoUrl && (
+                  <a
+                    className="p-2 rounded-3xl hover:bg-primary text-foreground/80 transition-colors duration-300"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href={project.demoUrl}
+                  >
+                    <ExternalLink size={25} />
+                  </a>
+                )}
+
+                {project.githubUrl && (
+                  <a
+                    className="p-2 rounded-3xl text-foreground/80 hover:bg-primary transition-colors duration-300"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href={project.githubUrl}
+                  >
+                    <Github size={25} />
+                  </a>
+                )}
               </div>
             </div>
           </div>
