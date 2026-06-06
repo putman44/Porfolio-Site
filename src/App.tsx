@@ -1,5 +1,7 @@
+// src/App.tsx
 import { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import LeadGenChatbot from "./components/LeadGenChatbot";
 import IsDarkModeContext from "./context/IsDarkModeContext";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
@@ -19,6 +21,8 @@ const App: React.FC = () => {
           <Route index element={<Home />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
+
+        <LeadGenChatbot />
       </BrowserRouter>
     </IsDarkModeContext.Provider>
   );
