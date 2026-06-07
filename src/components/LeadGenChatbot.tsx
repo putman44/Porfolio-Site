@@ -1,6 +1,6 @@
 // src/components/LeadGenChatbot.tsx
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Message = {
   sender: "bot" | "user";
@@ -72,6 +72,7 @@ export default function LeadGenChatbot() {
   const [leadData, setLeadData] = useState<LeadData>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -79,6 +80,10 @@ export default function LeadGenChatbot() {
       text: questions[0].question,
     },
   ]);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   async function handleSubmit() {
     if (!input.trim()) return;
@@ -193,6 +198,7 @@ export default function LeadGenChatbot() {
                 {message.text}
               </div>
             ))}
+            <div ref={messagesEndRef} />
           </div>
 
           <div className="border-t border-gray-200 p-4">
