@@ -85,6 +85,20 @@ export default function LeadGenChatbot() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  function resetChat() {
+    setStep(0);
+    setInput("");
+    setLeadData({});
+    setIsSubmitting(false);
+    setIsComplete(false);
+    setMessages([
+      {
+        sender: "bot",
+        text: questions[0].question,
+      },
+    ]);
+  }
+
   async function handleSubmit() {
     if (!input.trim()) return;
 
@@ -149,6 +163,11 @@ export default function LeadGenChatbot() {
       ]);
 
       setIsComplete(true);
+
+      setTimeout(() => {
+        resetChat();
+        setIsOpen(false);
+      }, 2500);
     } catch (error) {
       console.error(error);
 
