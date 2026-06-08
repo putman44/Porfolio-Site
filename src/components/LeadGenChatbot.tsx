@@ -18,6 +18,14 @@ type LeadData = {
   website?: string;
 };
 
+type ChatResponse = {
+  success: boolean;
+  reply?: string;
+  error?: string;
+};
+
+type ChatMode = "chat" | "lead";
+
 const questions: {
   key: keyof LeadData;
   question: string;
@@ -25,7 +33,7 @@ const questions: {
 }[] = [
   {
     key: "projectType",
-    question: "Hey! What are you looking to build or improve?",
+    question: "Great — what are you looking to build or improve?",
     placeholder: "Website, web app, automation, AI chatbot, dashboard...",
   },
   {
@@ -65,33 +73,66 @@ const questions: {
   },
 ];
 
+const initialMessages: Message[] = [
+  {
+    sender: "bot",
+    text: "Hey! I can answer questions about Taylor’s services or help you start a project request.",
+  },
+];
+
+function getOrCreateSessionId() {
+  const existingSessionId = localStorage.getItem("leadGenChatSessionId");
+
+  if (existingSessionId) {
+    return existingSessionId;
+  }
+
+  const newSessionId = crypto.randomUUID();
+  localStorage.setItem("leadGenChatSessionId", newSessionId);
+
+  return newSessionId;
+}
+
 export default function LeadGenChatbot() {
   const [isOpen, setIsOpen] = useState(false);
+  const [mode, setMode] = useState<ChatMode>("chat");
   const [step, setStep] = useState(0);
   const [input, setInput] = useState("");
   const [leadData, setLeadData] = useState<LeadData>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const [messages, setMessages] = useState<Message[]>(initialMessages);
+  const [sessionId, setSessionId] = useState("");
 
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      sender: "bot",
-      text: questions[0].question,
-    },
-  ]);
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  useEffect(() => {
+    setSessionId(getOrCreateSessionId());
+  }, []);
+
   function resetChat() {
+    setMode("chat");
     setStep(0);
     setInput("");
     setLeadData({});
     setIsSubmitting(false);
     setIsComplete(false);
-    setMessages([
+    setMessages(initialMessages);
+  }
+
+  function startLeadFlow() {
+    setMode("lead");
+    setStep(0);
+    setInput("");
+    setLeadData({});
+    setIsComplete(false);
+
+    setMessages((prev) => [
+      ...prev,
       {
         sender: "bot",
         text: questions[0].question,
@@ -99,7 +140,68 @@ export default function LeadGenChatbot() {
     ]);
   }
 
-  async function handleSubmit() {
+  async function handleChatSubmit() {
+    if (!input.trim()) return;
+
+    const userText = input.trim();
+
+    const userMessage: Message = {
+      sender: "user",
+      text: userText,
+    };
+
+    setMessages((prev) => [
+      ...prev,
+      userMessage,
+      {
+        sender: "bot",
+        text: "Let me check that...",
+      },
+    ]);
+
+    setInput("");
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ message: userText, sessionId }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to get chat response");
+      }
+
+      const data = (await response.json()) as ChatResponse;
+
+      setMessages((prev) => [
+        ...prev.slice(0, -1),
+        {
+          sender: "bot",
+          text:
+            data.reply ||
+            "I can help with websites, automations, dashboards, AI tools, and project planning.",
+        },
+      ]);
+    } catch (error) {
+      console.error(error);
+
+      setMessages((prev) => [
+        ...prev.slice(0, -1),
+        {
+          sender: "bot",
+          text: "Something went wrong while getting an answer. You can still start a project request below.",
+        },
+      ]);
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
+  async function handleLeadSubmit() {
     if (!input.trim()) return;
 
     const currentQuestion = questions[step];
@@ -183,8 +285,19 @@ export default function LeadGenChatbot() {
     }
   }
 
+  function handleSubmit() {
+    if (mode === "lead") {
+      handleLeadSubmit();
+      return;
+    }
+
+    handleChatSubmit();
+  }
+
   const currentPlaceholder =
-    step < questions.length ? questions[step].placeholder : "";
+    mode === "lead"
+      ? questions[step]?.placeholder || ""
+      : "Ask about services, pricing, automations, AI tools...";
 
   return (
     <>
@@ -200,7 +313,7 @@ export default function LeadGenChatbot() {
           <div className="rounded-t-2xl bg-black p-4 text-white">
             <div className="text-base font-semibold">Project Assistant</div>
             <p className="text-sm text-gray-300">
-              Tell me what you want to build.
+              Ask a question or start a project request.
             </p>
           </div>
 
@@ -208,7 +321,7 @@ export default function LeadGenChatbot() {
             {messages.map((message, index) => (
               <div
                 key={index}
-                className={`max-w-[85%] rounded-xl px-3 py-2 text-sm ${
+                className={`max-w-[85%] whitespace-pre-line rounded-xl px-3 py-2 text-sm ${
                   message.sender === "bot"
                     ? "bg-gray-100 text-gray-900"
                     : "ml-auto bg-black text-white"
@@ -217,6 +330,17 @@ export default function LeadGenChatbot() {
                 {message.text}
               </div>
             ))}
+
+            {mode === "chat" && (
+              <button
+                onClick={startLeadFlow}
+                disabled={isSubmitting}
+                className="rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 hover:bg-gray-100 disabled:opacity-50"
+              >
+                Start a project request
+              </button>
+            )}
+
             <div ref={messagesEndRef} />
           </div>
 

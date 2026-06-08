@@ -1,0 +1,55 @@
+Dev by Taylor Knowledge Base
+
+Business Overview:
+Dev by Taylor builds websites, web applications, dashboards, backend systems, automations, and AI-powered tools for small businesses, startups, and technical teams.
+
+Services:
+1. Website Development
+Custom portfolio sites, business websites, landing pages, service pages, and responsive frontend builds.
+
+2. Web Applications
+Full-stack applications using React, TypeScript, Python, Flask, Node, PostgreSQL, and related tools.
+
+3. Automation
+Workflow automation using tools like n8n, APIs, webhooks, CRMs, email systems, and custom scripts.
+
+4. AI Agents and Chatbots
+Lead generation chatbots, internal assistants, AI workflow tools, GPT-powered forms, customer support assistants, and data extraction workflows.
+
+5. Dashboards and Data Tools
+Custom dashboards for business data, operations, reporting, and process visibility.
+
+6. Backend/API Development
+REST APIs, authentication, database design, integrations, and backend services.
+
+Process:
+A typical project starts with a discovery conversation to understand the business problem, users, timeline, and budget. After that, Taylor recommends a practical MVP, builds the first version, tests it, and helps deploy it.
+
+Good Fit Projects:
+Good projects include business websites, custom internal tools, dashboards, automations, AI lead capture systems, CRM workflows, and MVP web applications.
+
+Timeline:
+Small website or automation projects can often start with a simple MVP. Larger apps or dashboard systems require more planning and phased development.
+
+Pricing:
+Pricing depends on scope. Simple landing pages or automations are smaller projects. Full-stack applications, AI workflows, and dashboards require more time and planning. The chatbot should collect project type, description, timeline, budget, and contact information before Taylor gives a specific estimate.
+
+Contact:
+Interested users should provide their name, email, company, website, project description, timeline, and budget so Taylor can follow up.
+
+FAQ:
+
+Q: Do you build websites?
+A: Yes. Dev by Taylor builds responsive websites, landing pages, portfolio sites, and business websites.
+
+Q: Do you build AI chatbots?
+A: Yes. Dev by Taylor can build lead generation chatbots, support assistants, AI workflow tools, and custom automations.
+
+Q: Can you connect a chatbot to email or Airtable?
+A: Yes. Chatbots can send lead details to Gmail, Airtable, Google Sheets, CRMs, or automation tools like n8n.
+
+Q: Do you build dashboards?
+A: Yes. Dev by Taylor can build dashboards for business data, reporting, operations, and internal tools.
+
+Q: What happens after I submit my project details?
+A: Taylor reviews the project information and follows up by email to discuss scope, timeline, and next steps.
