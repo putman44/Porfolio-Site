@@ -303,7 +303,7 @@ export default function LeadGenChatbot() {
     <>
       <button
         onClick={() => setIsOpen((prev) => !prev)}
-        className="fixed bottom-6 right-6 z-[9999] rounded-full bg-background px-5 py-4 text-secondary shadow-lg"
+        className="fixed bottom-6 right-6 z-[9999] rounded-full bg-background px-5 py-4 text-secondary shadow-xl"
       >
         {isOpen ? "Close" : "Chat"}
       </button>
@@ -350,17 +350,15 @@ export default function LeadGenChatbot() {
                     {prompt}
                   </button>
                 ))}
-
-                <button
-                  onClick={startLeadFlow}
-                  disabled={isSubmitting}
-                  className="rounded-lg bg-background px-3 py-2 text-xs text-secondary hover:opacity-90 disabled:opacity-50"
-                >
-                  Start a project request
-                </button>
               </div>
             )}
-
+            <button
+              onClick={startLeadFlow}
+              disabled={isSubmitting}
+              className="rounded-lg bg-background px-3 py-2 text-sm text-secondary hover:opacity-90 disabled:opacity-50"
+            >
+              Start a project request
+            </button>
             <div ref={messagesEndRef} />
           </div>
 
@@ -382,7 +380,7 @@ export default function LeadGenChatbot() {
               <button
                 onClick={handleSubmit}
                 disabled={isSubmitting || isComplete}
-                className="rounded-lg bg-black px-3 py-2 text-sm text-white disabled:opacity-50"
+                className="rounded-lg bg-background px-3 py-2 text-sm text-secondary disabled:opacity-50"
               >
                 Send
               </button>
