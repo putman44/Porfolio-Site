@@ -350,6 +350,14 @@ export default function LeadGenChatbot() {
                     {prompt}
                   </button>
                 ))}
+
+                <button
+                  onClick={startLeadFlow}
+                  disabled={isSubmitting}
+                  className="rounded-lg bg-background px-3 py-2 text-xs text-secondary hover:opacity-90 disabled:opacity-50"
+                >
+                  Start a project request
+                </button>
               </div>
             )}
 
