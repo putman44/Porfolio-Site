@@ -140,10 +140,10 @@ export default function LeadGenChatbot() {
     ]);
   }
 
-  async function handleChatSubmit() {
-    if (!input.trim()) return;
+  async function handleChatSubmit(promptText?: string) {
+    const userText = promptText || input.trim();
 
-    const userText = input.trim();
+    if (!userText) return;
 
     const userMessage: Message = {
       sender: "user",
@@ -333,14 +333,24 @@ export default function LeadGenChatbot() {
               </div>
             ))}
 
-            {mode === "chat" && (
-              <button
-                onClick={startLeadFlow}
-                disabled={isSubmitting}
-                className="rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 hover:bg-gray-100 disabled:opacity-50"
-              >
-                Start a project request
-              </button>
+            {mode === "chat" && messages.length === 1 && (
+              <div className="flex flex-wrap gap-2">
+                {[
+                  "What services do you offer?",
+                  "Can you build an AI chatbot?",
+                  "Do you build dashboards?",
+                  "How does the process work?",
+                ].map((prompt) => (
+                  <button
+                    key={prompt}
+                    onClick={() => handleChatSubmit(prompt)}
+                    disabled={isSubmitting}
+                    className="rounded-lg border border-gray-300 px-3 py-2 text-xs text-gray-900 hover:bg-gray-100 disabled:opacity-50"
+                  >
+                    {prompt}
+                  </button>
+                ))}
+              </div>
             )}
 
             <div ref={messagesEndRef} />
@@ -364,7 +374,7 @@ export default function LeadGenChatbot() {
               <button
                 onClick={handleSubmit}
                 disabled={isSubmitting || isComplete}
-                className="rounded-lg bg-background px-4 py-2 text-sm text-secondary disabled:opacity-50"
+                className="rounded-lg bg-black px-3 py-2 text-sm text-white disabled:opacity-50"
               >
                 Send
               </button>
