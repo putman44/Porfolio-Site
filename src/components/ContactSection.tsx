@@ -1,8 +1,8 @@
 // src/components/ContactSection.tsx
-import { Facebook, Linkedin, Mail, MapPin, Phone, Send } from "lucide-react";
-import { cn } from "../lib/utils";
-import { useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
+import { Facebook, Linkedin, Mail, MapPin, Phone, Send } from "lucide-react";
+import { useRef, useState } from "react";
+import { cn } from "../lib/utils";
 
 const ContactSection: React.FC = () => {
   const form = useRef<HTMLFormElement>(null);
@@ -23,7 +23,7 @@ const ContactSection: React.FC = () => {
         import.meta.env.VITE_EMAILJS_SERVICE_ID,
         import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
         form.current,
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
       );
       setSuccess("Message sent successfully!");
       form.current.reset();
@@ -174,7 +174,7 @@ const ContactSection: React.FC = () => {
               <button
                 type="submit"
                 className={cn(
-                  "cosmic-button w-full flex items-center justify-center gap-2"
+                  "cosmic-button w-full flex items-center justify-center gap-2",
                 )}
                 disabled={loading}
               >

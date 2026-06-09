@@ -1,3 +1,4 @@
+// src/components/ScrollingWaves.tsx
 import { useScroll, useTransform, motion } from "framer-motion";
 
 const X_LINES = 60;

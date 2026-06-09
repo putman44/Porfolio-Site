@@ -1,12 +1,13 @@
-import { useState } from "react";
-import { Menu, X } from "lucide-react";
-import ThemeToggle from "./ThemeToggle";
+// src/components/Navbar.tsx
 import {
+  AnimatePresence,
   motion,
   useScroll,
   useTransform,
-  AnimatePresence,
 } from "framer-motion";
+import { Menu, X } from "lucide-react";
+import { useState } from "react";
+import ThemeToggle from "./ThemeToggle";
 
 interface NavItem {
   name: string;
@@ -30,7 +31,7 @@ const Navbar: React.FC = () => {
   const boxShadow = useTransform(
     scrollY,
     [0, 20],
-    ["0 0 0 rgba(0,0,0,0)", "0 4px 12px rgba(0,0,0,0.08)"]
+    ["0 0 0 rgba(0,0,0,0)", "0 4px 12px rgba(0,0,0,0.08)"],
   );
 
   // scrollY.to(inputRange, outputRange) maps one range of values to another.

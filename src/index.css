@@ -89,16 +89,16 @@
 /* ===================== BASE STYLES ===================== */
 @layer base {
   :root {
-    --background: 51 55 82;
+    --background: 51 55% 82%;
     --foreground: 222 47% 11%;
 
     --muted: 210 40% 96%;
     --muted-foreground: 215 16% 47%;
 
-    --card: 0 69 50;
+    --card: 0 69% 50%;
 
-    --primary: 31 100 48;
-    --secondary: 0 69 56;
+    --primary: 31 100% 48%;
+    --secondary: 0 69% 56%;
     --primary-foreground: 210 40% 98%;
 
     --border: 214 32% 91%;
@@ -113,8 +113,8 @@
 
     --card: 222 47% 8%;
 
-    --primary: 31 100 57;
-    --secondary: 51 55 82;
+    --primary: 31 100% 57%;
+    --secondary: 51 55% 82%;
     --primary-foreground: 213 31% 91%;
 
     --border: 217 33% 20%;
@@ -130,7 +130,9 @@
 
   body {
     @apply bg-background text-foreground transition-colors duration-300;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
   }
 }
 

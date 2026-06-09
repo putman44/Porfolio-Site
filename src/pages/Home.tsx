@@ -1,3 +1,4 @@
+// src/pages/Home.tsx
 import AboutSection from "../components/AboutSection";
 import ContactSection from "../components/ContactSection";
 import Footer from "../components/Footer";
