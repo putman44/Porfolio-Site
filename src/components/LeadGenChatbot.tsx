@@ -193,7 +193,7 @@ export default function LeadGenChatbot() {
         ...prev.slice(0, -1),
         {
           sender: "bot",
-          text: "Something went wrong while getting an answer. You can still start a project request below.",
+          text: "Something went wrong while getting an answer. You can still start a project request below or send an email to taylorputman41@gmail.com.",
         },
       ]);
     } finally {
@@ -303,14 +303,14 @@ export default function LeadGenChatbot() {
     <>
       <button
         onClick={() => setIsOpen((prev) => !prev)}
-        className="fixed bottom-6 right-6 z-[9999] rounded-full bg-black px-5 py-4 text-white shadow-lg"
+        className="fixed bottom-6 right-6 z-[9999] rounded-full bg-[rgb(2,34,70)] px-5 py-4 text-white shadow-lg"
       >
         {isOpen ? "Close" : "Chat"}
       </button>
 
       {isOpen && (
         <div className="fixed bottom-24 right-6 z-[9999] flex h-[520px] w-[360px] max-w-[calc(100vw-2rem)] flex-col rounded-2xl border border-gray-200 bg-white shadow-xl">
-          <div className="rounded-t-2xl bg-black p-4 text-white">
+          <div className="rounded-t-2xl bg-[rgb(2,34,56)] p-4 text-white">
             <div className="text-base font-semibold">Project Assistant</div>
             <p className="text-sm text-gray-300">
               Ask a question or start a project request.
@@ -324,7 +324,7 @@ export default function LeadGenChatbot() {
                 className={`max-w-[85%] whitespace-pre-line rounded-xl px-3 py-2 text-sm ${
                   message.sender === "bot"
                     ? "bg-gray-100 text-gray-900"
-                    : "ml-auto bg-black text-white"
+                    : "ml-auto bg-[rgb(2,34,56)] text-white"
                 }`}
               >
                 {message.text}
@@ -362,7 +362,7 @@ export default function LeadGenChatbot() {
               <button
                 onClick={handleSubmit}
                 disabled={isSubmitting || isComplete}
-                className="rounded-lg bg-black px-4 py-2 text-sm text-white disabled:opacity-50"
+                className="rounded-lg bg-[rgb(2,34,56)] px-4 py-2 text-sm text-white disabled:opacity-50"
               >
                 Send
               </button>
