@@ -3,6 +3,7 @@ import type { VercelRequest, VercelResponse } from "@vercel/node";
 type LeadPayload = {
   name?: string;
   email?: string;
+  phone?: string;
   company?: string;
   website?: string;
   projectType?: string;
@@ -12,6 +13,22 @@ type LeadPayload = {
   leadScore?: "Hot" | "Warm" | "Cold";
   summary?: string;
 };
+
+function normalizePhone(phone?: string): string | undefined {
+  if (!phone) return undefined;
+
+  const digits = phone.replace(/\D/g, "");
+
+  if (digits.length === 10) {
+    return `+1${digits}`;
+  }
+
+  if (digits.length === 11 && digits.startsWith("1")) {
+    return `+${digits}`;
+  }
+
+  return phone;
+}
 
 function scoreLead(lead: LeadPayload): "Hot" | "Warm" | "Cold" {
   const timeline = lead.timeline?.toLowerCase() || "";
@@ -47,7 +64,9 @@ function createSummary(lead: LeadPayload): string {
     lead.description || "No description provided"
   }". Timeline: ${lead.timeline || "Not provided"}. Budget: ${
     lead.budget || "Not provided"
-  }. Contact: ${lead.email || "No email provided"}.`;
+  }. Contact: ${lead.email || "No email provided"}${
+    lead.phone ? `, ${lead.phone}` : ""
+  }.`;
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -68,10 +87,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(500).json({ error: "Missing N8N_LEAD_WEBHOOK_URL" });
     }
 
-    const lead: LeadPayload = {
+    const normalizedBody: LeadPayload = {
       ...body,
-      leadScore: scoreLead(body),
-      summary: createSummary(body),
+      phone: normalizePhone(body.phone),
+    };
+
+    const lead: LeadPayload = {
+      ...normalizedBody,
+      leadScore: scoreLead(normalizedBody),
+      summary: createSummary(normalizedBody),
     };
 
     const n8nResponse = await fetch(webhookUrl, {

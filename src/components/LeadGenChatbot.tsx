@@ -5,6 +5,8 @@ import { useEffect, useRef, useState } from "react";
 type Message = {
   sender: "bot" | "user";
   text: string;
+  phoneHref?: string;
+  phoneLabel?: string;
 };
 
 type LeadData = {
@@ -16,6 +18,8 @@ type LeadData = {
   email?: string;
   company?: string;
   website?: string;
+  phone?: string;
+  Status?: string;
 };
 
 type ChatResponse = {
@@ -71,6 +75,11 @@ const questions: {
     question: "Do you already have a website?",
     placeholder: "https://example.com or none yet...",
   },
+  {
+    key: "phone",
+    question: "What’s the best phone number to reach you at?",
+    placeholder: "555-555-5555",
+  },
 ];
 
 const initialMessages: Message[] = [
@@ -91,6 +100,20 @@ function getOrCreateSessionId() {
   localStorage.setItem("leadGenChatSessionId", newSessionId);
 
   return newSessionId;
+}
+
+function formatPhoneInput(value: string) {
+  const digits = value.replace(/\D/g, "").slice(0, 10);
+
+  if (digits.length <= 3) {
+    return digits;
+  }
+
+  if (digits.length <= 6) {
+    return `${digits.slice(0, 3)}-${digits.slice(3)}`;
+  }
+
+  return `${digits.slice(0, 3)}-${digits.slice(3, 6)}-${digits.slice(6)}`;
 }
 
 export default function LeadGenChatbot() {
@@ -249,6 +272,7 @@ export default function LeadGenChatbot() {
         headers: {
           "Content-Type": "application/json",
         },
+
         body: JSON.stringify(updatedLeadData),
       });
 
@@ -260,7 +284,9 @@ export default function LeadGenChatbot() {
         ...prev,
         {
           sender: "bot",
-          text: "Perfect. Your project details were sent over. Taylor will follow up soon.",
+          text: "Perfect — your project details were sent over. Want to move faster? Call my quick project intake line:",
+          phoneHref: "tel:+19728128490",
+          phoneLabel: "+1 (972) 812-8490",
         },
       ]);
 
@@ -269,7 +295,7 @@ export default function LeadGenChatbot() {
       setTimeout(() => {
         resetChat();
         setIsOpen(false);
-      }, 2500);
+      }, 15000);
     } catch (error) {
       console.error(error);
 
@@ -277,7 +303,7 @@ export default function LeadGenChatbot() {
         ...prev,
         {
           sender: "bot",
-          text: "Something went wrong while sending your info. Please email Taylor directly.",
+          text: "Something went wrong while sending your info. Please email Taylor directly at taylorputman41@gmail.com",
         },
       ]);
     } finally {
@@ -299,11 +325,14 @@ export default function LeadGenChatbot() {
       ? questions[step]?.placeholder || ""
       : "Ask about services, pricing, automations, AI tools...";
 
+  const currentQuestion = mode === "lead" ? questions[step] : null;
+  const isPhoneQuestion = currentQuestion?.key === "phone";
+
   return (
     <>
       <button
         onClick={() => setIsOpen((prev) => !prev)}
-        className="fixed bottom-6 right-6 z-[9999] rounded-full bg-background px-5 py-4 text-secondary shadow-xl"
+        className="fixed bottom-6 right-6 z-[9999] border border-amber-50 rounded-full bg-background px-5 py-4 text-secondary shadow-xl"
       >
         {isOpen ? "Close" : "Chat"}
       </button>
@@ -329,7 +358,16 @@ export default function LeadGenChatbot() {
                     : "ml-auto bg-background text-secondary"
                 }`}
               >
-                {message.text}
+                <span>{message.text}</span>
+
+                {message.phoneHref && message.phoneLabel && (
+                  <a
+                    href={message.phoneHref}
+                    className="mt-2 block font-semibold underline"
+                  >
+                    {message.phoneLabel}
+                  </a>
+                )}
               </div>
             ))}
 
@@ -352,13 +390,15 @@ export default function LeadGenChatbot() {
                 ))}
               </div>
             )}
-            <button
-              onClick={startLeadFlow}
-              disabled={isSubmitting}
-              className="rounded-lg bg-background px-3 py-2 text-sm text-secondary hover:opacity-90 disabled:opacity-50"
-            >
-              Start a project request
-            </button>
+            {mode !== "lead" && (
+              <button
+                onClick={startLeadFlow}
+                disabled={isSubmitting}
+                className="rounded-lg bg-background px-3 py-2 text-sm text-secondary hover:opacity-90 disabled:opacity-50"
+              >
+                Start a project request
+              </button>
+            )}
             <div ref={messagesEndRef} />
           </div>
 
@@ -366,8 +406,19 @@ export default function LeadGenChatbot() {
             <div className="flex gap-2">
               <input
                 value={input}
+                type={isPhoneQuestion ? "tel" : "text"}
+                inputMode={isPhoneQuestion ? "tel" : "text"}
                 disabled={isSubmitting || isComplete}
-                onChange={(event) => setInput(event.target.value)}
+                onChange={(event) => {
+                  const value = event.target.value;
+
+                  if (isPhoneQuestion) {
+                    setInput(formatPhoneInput(value));
+                    return;
+                  }
+
+                  setInput(value);
+                }}
                 onKeyDown={(event) => {
                   if (event.key === "Enter") {
                     handleSubmit();
