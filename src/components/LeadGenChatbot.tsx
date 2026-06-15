@@ -383,7 +383,7 @@ export default function LeadGenChatbot() {
                     key={prompt}
                     onClick={() => handleChatSubmit(prompt)}
                     disabled={isSubmitting}
-                    className="rounded-lg border border-gray-300 px-3 py-2 text-xs text-gray-900 hover:bg-gray-100 disabled:opacity-50"
+                    className="rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 hover:bg-gray-100 disabled:opacity-50"
                   >
                     {prompt}
                   </button>
@@ -394,7 +394,7 @@ export default function LeadGenChatbot() {
               <button
                 onClick={startLeadFlow}
                 disabled={isSubmitting}
-                className="rounded-lg bg-background px-3 py-2 text-sm text-secondary hover:opacity-90 disabled:opacity-50"
+                className="flex rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 hover:bg-gray-100 disabled:opacity-50"
               >
                 Start a project request
               </button>
