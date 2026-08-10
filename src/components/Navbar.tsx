@@ -54,7 +54,7 @@ const Navbar: React.FC = () => {
         <Link
           to="/"
           aria-label="Main Dev by Taylor site"
-          className="flex items-center gap-2 text-xl font-bold text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+          className="flex items-center gap-2 text-lg font-bold tracking-[-0.03em] text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
         >
           <img
             src="/devbytaylorIcon.svg"
@@ -62,9 +62,7 @@ const Navbar: React.FC = () => {
             aria-hidden="true"
             className="h-9 w-9 shrink-0 rounded-lg"
           />
-          <span className="hidden text-glow text-foreground lg:inline">
-            Dev by Taylor
-          </span>
+          <span className="text-glow text-foreground">Dev by Taylor</span>
         </Link>
 
         {/* Desktop Nav */}

@@ -216,7 +216,7 @@ export default function LeadGenChatbot() {
         ...prev.slice(0, -1),
         {
           sender: "bot",
-          text: "Something went wrong while getting an answer. You can still start a project request below or send an email to taylorputman41@gmail.com.",
+          text: "Something went wrong while getting an answer. You can still start a project request below or send an email to taylor@devbytaylor.com.",
         },
       ]);
     } finally {
@@ -303,7 +303,7 @@ export default function LeadGenChatbot() {
         ...prev,
         {
           sender: "bot",
-          text: "Something went wrong while sending your info. Please email Taylor directly at taylorputman41@gmail.com",
+          text: "Something went wrong while sending your info. Please email Taylor directly at taylor@devbytaylor.com",
         },
       ]);
     } finally {

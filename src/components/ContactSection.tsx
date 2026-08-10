@@ -1,6 +1,6 @@
 // src/components/ContactSection.tsx
 import emailjs from "@emailjs/browser";
-import { Facebook, Linkedin, Mail, MapPin, Phone, Send } from "lucide-react";
+import { Linkedin, Mail, MapPin, Phone, Send } from "lucide-react";
 import { useRef, useState } from "react";
 import { cn } from "../lib/utils";
 
@@ -61,9 +61,9 @@ const ContactSection: React.FC = () => {
 
                 <a
                   className="hover:text-primary truncate transition-colors"
-                  href="mailto:taylorputman41@gmail.com"
+                  href="mailto:taylor@devbytaylor.com"
                 >
-                  taylorputman41@gmail.com
+                  taylor@devbytaylor.com
                 </a>
               </div>
 
@@ -97,14 +97,6 @@ const ContactSection: React.FC = () => {
                   className="p-2 rounded-full hover:bg-primary transition-colors"
                 >
                   <Linkedin className="" />
-                </a>
-                <a
-                  target="_blank"
-                  href="https://www.facebook.com/TdPutman/"
-                  rel="noopener noreferrer"
-                  className="p-2 rounded-full hover:bg-primary transition-colors"
-                >
-                  <Facebook />
                 </a>
               </div>
             </div>
