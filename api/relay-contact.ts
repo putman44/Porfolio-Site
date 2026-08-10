@@ -34,6 +34,12 @@ function isAllowedOrigin(origin: string | undefined): boolean {
 
   try {
     const url = new URL(origin);
+    const vercelOrigins = [
+      process.env.VERCEL_URL,
+      process.env.VERCEL_BRANCH_URL,
+    ]
+      .filter((hostname): hostname is string => Boolean(hostname))
+      .map((hostname) => `https://${hostname}`);
     const isProductionOrigin =
       url.protocol === "https:" &&
       (url.hostname === "devbytaylor.com" ||
@@ -44,8 +50,9 @@ function isAllowedOrigin(origin: string | undefined): boolean {
       (url.hostname === "localhost" ||
         url.hostname === "127.0.0.1" ||
         url.hostname === "[::1]");
+    const isVercelOrigin = vercelOrigins.includes(url.origin);
 
-    return isProductionOrigin || isLocalOrigin;
+    return isProductionOrigin || isLocalOrigin || isVercelOrigin;
   } catch {
     return false;
   }
