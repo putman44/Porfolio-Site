@@ -1,10 +1,16 @@
 // src/pages/NotFound.tsx
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import Seo from "../components/Seo";
 
 const NotFound: React.FC = () => {
   return (
     <section className="min-h-screen flex flex-col items-center justify-center px-4 bg-background text-foreground">
+      <Seo
+        title="Page Not Found | Dev by Taylor"
+        description="The requested page could not be found."
+        noIndex
+      />
       <h1 className="text-6xl md:text-8xl font-bold mb-6 text-primary animate-fade-in">
         404
       </h1>

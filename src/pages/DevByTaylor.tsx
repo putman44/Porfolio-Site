@@ -4,10 +4,16 @@ import DevByTaylorFooter from "../components/dev-by-taylor/DevByTaylorFooter";
 import DevByTaylorHero from "../components/dev-by-taylor/DevByTaylorHero";
 import DevByTaylorNavbar from "../components/dev-by-taylor/DevByTaylorNavbar";
 import DevByTaylorPaths from "../components/dev-by-taylor/DevByTaylorPaths";
+import Seo from "../components/Seo";
 
 const DevByTaylor: React.FC = () => {
   return (
     <div className="relative min-h-screen overflow-hidden bg-background text-left text-foreground">
+      <Seo
+        title="Dev by Taylor | Software, Automation & Systems"
+        description="Dev by Taylor builds practical software, automation, integrations, and systems that solve real-world problems for businesses and teams."
+        canonical="https://devbytaylor.com/"
+      />
       <div
         aria-hidden="true"
         className="pointer-events-none fixed inset-0 z-0 opacity-[0.035] dark:opacity-[0.055]"

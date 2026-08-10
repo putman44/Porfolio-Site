@@ -7,10 +7,16 @@ import RelayHero from "../components/relay/RelayHero";
 import RelayHowItWorks from "../components/relay/RelayHowItWorks";
 import RelayOutcomes from "../components/relay/RelayOutcomes";
 import RelayRevenueProblem from "../components/relay/RelayRevenueProblem";
+import Seo from "../components/Seo";
 
 const Relay: React.FC = () => {
   return (
     <div className="relative min-h-screen overflow-hidden bg-background text-left text-foreground">
+      <Seo
+        title="Relay | Lead Response & Follow-Up for Service Businesses"
+        description="Relay helps service businesses capture incoming leads, respond quickly, stay organized, and follow up consistently so opportunities do not quietly disappear."
+        canonical="https://devbytaylor.com/relay"
+      />
       <div
         aria-hidden="true"
         className="pointer-events-none fixed inset-0 z-0 opacity-[0.035] dark:opacity-[0.055]"
