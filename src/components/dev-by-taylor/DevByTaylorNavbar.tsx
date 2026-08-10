@@ -25,9 +25,12 @@ const DevByTaylorNavbar: React.FC = () => {
           className="group flex items-center gap-3 rounded-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
           aria-label="Dev by Taylor home"
         >
-          <span className="grid h-9 w-9 place-items-center rounded-lg border border-primary/40 bg-primary/10 text-sm font-black text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
-            DT
-          </span>
+          <img
+            src="/devbytaylorIcon.svg"
+            alt=""
+            aria-hidden="true"
+            className="h-9 w-9 shrink-0 rounded-lg"
+          />
           <span className="text-lg font-bold tracking-[-0.03em]">
             Dev by Taylor
           </span>

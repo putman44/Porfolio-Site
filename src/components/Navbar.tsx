@@ -7,6 +7,7 @@ import {
 } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import ThemeToggle from "./ThemeToggle";
 
 interface NavItem {
@@ -50,26 +51,53 @@ const Navbar: React.FC = () => {
     >
       <div className="container flex items-center justify-between">
         {/* Logo */}
-        <a
-          href="#hero"
-          className="text-xl font-bold text-primary flex items-center"
+        <Link
+          to="/"
+          aria-label="Main Dev by Taylor site"
+          className="flex items-center gap-2 text-xl font-bold text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
         >
-          <span className="relative z-10">
-            <span className="text-glow text-foreground">devbytaylor</span>
+          <img
+            src="/devbytaylorIcon.svg"
+            alt=""
+            aria-hidden="true"
+            className="h-9 w-9 shrink-0 rounded-lg"
+          />
+          <span className="hidden text-glow text-foreground lg:inline">
+            Dev by Taylor
           </span>
-        </a>
+        </Link>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center space-x-8">
-          {navItems.map((item) => (
-            <a
-              key={item.name}
-              href={item.href}
-              className="text-foreground/80 hover:text-primary transition-colors duration-300"
+        <div className="hidden items-center gap-4 md:flex">
+          <div className="flex items-center gap-4">
+            <span className="text-[0.65rem] font-bold uppercase tracking-[0.16em] text-foreground/45">
+              Portfolio
+            </span>
+            {navItems.map((item) => (
+              <a
+                key={item.name}
+                href={item.href}
+                className="text-sm text-foreground/80 transition-colors duration-300 hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+              >
+                {item.name}
+              </a>
+            ))}
+          </div>
+          <span className="h-5 w-px bg-foreground/15" aria-hidden="true" />
+          <div className="flex items-center gap-4">
+            <Link
+              to="/"
+              className="text-sm font-semibold text-foreground/80 transition-colors duration-300 hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
             >
-              {item.name}
-            </a>
-          ))}
+              Main
+            </Link>
+            <Link
+              to="/relay"
+              className="text-sm font-semibold text-foreground/80 transition-colors duration-300 hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+            >
+              Relay
+            </Link>
+          </div>
           <ThemeToggle />
         </div>
 
@@ -92,7 +120,10 @@ const Navbar: React.FC = () => {
               transition={{ type: "spring", stiffness: 280, damping: 30 }}
               className="fixed h-fit inset-0 z-40 flex flex-col items-center justify-center bg-background md:hidden"
             >
-              <div className="flex flex-col m-6 items-center space-y-8 text-xl">
+              <div className="m-6 flex flex-col items-center gap-5 text-xl">
+                <span className="text-xs font-bold uppercase tracking-[0.18em] text-foreground/45">
+                  Portfolio sections
+                </span>
                 {navItems.map((item) => (
                   <a
                     key={item.name}
@@ -103,6 +134,24 @@ const Navbar: React.FC = () => {
                     {item.name}
                   </a>
                 ))}
+                <span className="my-1 h-px w-28 bg-foreground/15" aria-hidden="true" />
+                <span className="text-xs font-bold uppercase tracking-[0.18em] text-foreground/45">
+                  Dev by Taylor
+                </span>
+                <Link
+                  to="/"
+                  className="font-semibold text-foreground/80 transition-colors duration-300 hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Main site
+                </Link>
+                <Link
+                  to="/relay"
+                  className="font-semibold text-foreground/80 transition-colors duration-300 hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Relay
+                </Link>
                 <ThemeToggle />
               </div>
             </motion.div>
