@@ -31,6 +31,37 @@ const fieldOrder: VisibleField[] = [
 ];
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const PHONE_DIGIT_LIMIT = 10;
+
+function phoneDigits(value: string): string {
+  return value.replace(/\D/g, "").slice(0, PHONE_DIGIT_LIMIT);
+}
+
+function formatPhoneNumber(value: string): string {
+  const digits = phoneDigits(value);
+
+  if (digits.length < 3) return digits;
+  if (digits.length === 3) return `(${digits})`;
+
+  const areaCode = digits.slice(0, 3);
+  const prefix = digits.slice(3, 6);
+  const lineNumber = digits.slice(6);
+
+  if (!lineNumber) return `(${areaCode}) ${prefix}`;
+  return `(${areaCode}) ${prefix}-${lineNumber}`;
+}
+
+function cursorPositionAfterDigits(value: string, digitCount: number): number {
+  if (digitCount <= 0) return 0;
+
+  let digitsSeen = 0;
+  for (let index = 0; index < value.length; index += 1) {
+    if (/\d/.test(value[index])) digitsSeen += 1;
+    if (digitsSeen === digitCount) return index + 1;
+  }
+
+  return value.length;
+}
 
 function validateForm(values: FormValues): FormErrors {
   const errors: FormErrors = {};
@@ -46,6 +77,10 @@ function validateForm(values: FormValues): FormErrors {
     errors.email = "Please enter your email address.";
   } else if (!emailPattern.test(email)) {
     errors.email = "Please enter a valid email address.";
+  }
+
+  if (values.phone && values.phone.length !== PHONE_DIGIT_LIMIT) {
+    errors.phone = "Enter a 10-digit phone number.";
   }
 
   if (!leadProcess) {
@@ -78,6 +113,53 @@ const RelayInquiryForm: React.FC = () => {
     if (field !== "website") {
       setErrors((current) => ({ ...current, [field]: undefined }));
     }
+  };
+
+  const updatePhone = (value: string) => {
+    updateField("phone", phoneDigits(value));
+  };
+
+  const handlePhoneKeyDown = (
+    event: React.KeyboardEvent<HTMLInputElement>,
+  ) => {
+    if (event.key !== "Backspace" && event.key !== "Delete") return;
+
+    const input = event.currentTarget;
+    const selectionStart = input.selectionStart;
+    const selectionEnd = input.selectionEnd;
+    if (
+      selectionStart === null ||
+      selectionEnd === null ||
+      selectionStart !== selectionEnd
+    ) {
+      return;
+    }
+
+    const digitsBeforeCursor = phoneDigits(
+      input.value.slice(0, selectionStart),
+    ).length;
+    const removalIndex =
+      event.key === "Backspace" ? digitsBeforeCursor - 1 : digitsBeforeCursor;
+    if (removalIndex < 0 || removalIndex >= values.phone.length) return;
+
+    event.preventDefault();
+    const nextPhone =
+      values.phone.slice(0, removalIndex) +
+      values.phone.slice(removalIndex + 1);
+    const nextFormattedPhone = formatPhoneNumber(nextPhone);
+    const nextDigitPosition =
+      event.key === "Backspace"
+        ? Math.max(0, digitsBeforeCursor - 1)
+        : digitsBeforeCursor;
+
+    updateField("phone", nextPhone);
+    requestAnimationFrame(() => {
+      const cursorPosition = cursorPositionAfterDigits(
+        nextFormattedPhone,
+        nextDigitPosition,
+      );
+      input.setSelectionRange(cursorPosition, cursorPosition);
+    });
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -164,7 +246,7 @@ const RelayInquiryForm: React.FC = () => {
               Relay inquiry
             </p>
             <h3 className="mt-2 text-2xl font-black tracking-[-0.03em] sm:text-3xl">
-              Tell me what happens now.
+              Tell me how you handle new leads today.
             </h3>
           </div>
 
@@ -268,12 +350,21 @@ const RelayInquiryForm: React.FC = () => {
                   type="tel"
                   inputMode="tel"
                   autoComplete="tel"
-                  maxLength={50}
+                  maxLength={14}
                   disabled={submitting}
-                  value={values.phone}
-                  onChange={(event) => updateField("phone", event.target.value)}
+                  value={formatPhoneNumber(values.phone)}
+                  onChange={(event) => updatePhone(event.target.value)}
+                  onKeyDown={handlePhoneKeyDown}
                   className={fieldClassName}
                 />
+                {errors.phone && (
+                  <p
+                    id="relay-phone-error"
+                    className="mt-2 text-sm text-red-700 dark:text-red-300"
+                  >
+                    {errors.phone}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -282,7 +373,7 @@ const RelayInquiryForm: React.FC = () => {
                 className="text-sm font-semibold"
                 htmlFor="relay-leadProcess"
               >
-                What happens when a new lead comes in?
+                How do you handle new leads today?
               </label>
               <textarea
                 {...errorProps("leadProcess")}
@@ -298,7 +389,7 @@ const RelayInquiryForm: React.FC = () => {
                 onChange={(event) =>
                   updateField("leadProcess", event.target.value)
                 }
-                placeholder="Tell me how the inquiry is received, who responds, and how follow-up happens today."
+                placeholder="Example: Website leads go to our office manager, who calls them back when available and follows up the next day if they don't answer."
                 className={`${fieldClassName} resize-y`}
               />
               {errors.leadProcess && (

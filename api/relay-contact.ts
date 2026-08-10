@@ -8,12 +8,12 @@ const LIMITS = {
   name: 100,
   business: 150,
   email: 254,
-  phone: 50,
+  phone: 20,
   leadProcess: 3000,
 } as const;
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const phonePattern = /^[0-9+().\-\s#xXeEtT]+$/;
+const phonePattern = /^[0-9+().\-\s]+$/;
 
 type RequestBody = Record<string, unknown>;
 
@@ -90,7 +90,7 @@ function optionalString(body: RequestBody, key: string): string | null {
 }
 
 function normalizePhone(phone: string): string {
-  return phone.replace(/\s+/g, " ").trim();
+  return phone.replace(/\D/g, "");
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -166,10 +166,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const phone = phoneInput ? normalizePhone(phoneInput) : "";
-  const phoneDigitCount = phone.replace(/\D/g, "").length;
   if (
-    phone &&
-    (!phonePattern.test(phone) || phoneDigitCount < 7 || phoneDigitCount > 20)
+    phoneInput &&
+    (!phonePattern.test(phoneInput) || phone.length !== 10)
   ) {
     return sendJson(res, 400, { error: "Invalid inquiry details." });
   }
