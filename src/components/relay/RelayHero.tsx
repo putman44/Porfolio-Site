@@ -50,7 +50,7 @@ const RelayHero: React.FC = () => {
             />
           </a>
           <a
-            href="mailto:automation@devbytaylor.com?subject=Relay%20lead%20process"
+            href="#relay-contact"
             className="group inline-flex min-h-12 items-center justify-center gap-3 rounded-full border border-foreground/20 bg-background/50 px-7 py-3 font-semibold transition-all hover:-translate-y-0.5 hover:border-foreground/40 hover:bg-foreground/5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
           >
             Discuss your lead process
