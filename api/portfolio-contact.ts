@@ -1,0 +1,210 @@
+import type { VercelRequest, VercelResponse } from "@vercel/node";
+
+const MAX_REQUEST_BYTES = 16 * 1024;
+const MIN_COMPLETION_TIME_MS = 2_000;
+const WEBHOOK_TIMEOUT_MS = 10_000;
+
+const LIMITS = {
+  name: 100,
+  email: 254,
+  message: 5000,
+} as const;
+
+const MIN_MESSAGE_LENGTH = 10;
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const allowedFields = new Set([
+  "name",
+  "email",
+  "message",
+  "website",
+  "startedAt",
+]);
+
+type RequestBody = Record<string, unknown>;
+
+function sendJson(
+  res: VercelResponse,
+  status: number,
+  body: { ok?: true; error?: string },
+) {
+  return res.status(status).json(body);
+}
+
+function headerValue(value: string | string[] | undefined): string | undefined {
+  return Array.isArray(value) ? value[0] : value;
+}
+
+function isAllowedOrigin(origin: string | undefined): boolean {
+  if (!origin) return true;
+
+  try {
+    const url = new URL(origin);
+    const vercelOrigins = [
+      process.env.VERCEL_URL,
+      process.env.VERCEL_BRANCH_URL,
+    ]
+      .filter((hostname): hostname is string => Boolean(hostname))
+      .map((hostname) => `https://${hostname}`);
+    const isProductionOrigin =
+      url.protocol === "https:" &&
+      (url.hostname === "devbytaylor.com" ||
+        url.hostname === "www.devbytaylor.com") &&
+      !url.port;
+    const isLocalOrigin =
+      (url.protocol === "http:" || url.protocol === "https:") &&
+      (url.hostname === "localhost" ||
+        url.hostname === "127.0.0.1" ||
+        url.hostname === "[::1]");
+    const isVercelOrigin = vercelOrigins.includes(url.origin);
+
+    return isProductionOrigin || isLocalOrigin || isVercelOrigin;
+  } catch {
+    return false;
+  }
+}
+
+function parseJsonBody(req: VercelRequest): RequestBody | null {
+  try {
+    const rawBody: unknown = req.body;
+    const parsed: unknown =
+      typeof rawBody === "string" ? JSON.parse(rawBody) : rawBody;
+
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+      return null;
+    }
+
+    if (Buffer.byteLength(JSON.stringify(parsed), "utf8") > MAX_REQUEST_BYTES) {
+      return null;
+    }
+
+    return parsed as RequestBody;
+  } catch {
+    return null;
+  }
+}
+
+function requiredString(body: RequestBody, key: string): string | null {
+  const value = body[key];
+  return typeof value === "string" && value.trim() ? value.trim() : null;
+}
+
+function optionalString(body: RequestBody, key: string): string | null {
+  const value = body[key];
+  if (value === undefined || value === "") return "";
+  return typeof value === "string" ? value.trim() : null;
+}
+
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  res.setHeader("Cache-Control", "no-store");
+
+  if (req.method !== "POST") {
+    res.setHeader("Allow", "POST");
+    return sendJson(res, 405, { error: "Method not allowed." });
+  }
+
+  const origin = headerValue(req.headers.origin);
+  if (!isAllowedOrigin(origin)) {
+    return sendJson(res, 403, { error: "Unable to submit message." });
+  }
+
+  const contentType = headerValue(req.headers["content-type"]);
+  if (!contentType?.toLowerCase().startsWith("application/json")) {
+    return sendJson(res, 415, { error: "A JSON request is required." });
+  }
+
+  const contentLength = Number(
+    headerValue(req.headers["content-length"]) ?? "0",
+  );
+  if (Number.isFinite(contentLength) && contentLength > MAX_REQUEST_BYTES) {
+    return sendJson(res, 413, { error: "Request is too large." });
+  }
+
+  const body = parseJsonBody(req);
+  if (!body || Object.keys(body).some((key) => !allowedFields.has(key))) {
+    return sendJson(res, 400, { error: "Invalid request." });
+  }
+
+  const name = requiredString(body, "name");
+  const email = requiredString(body, "email");
+  const message = requiredString(body, "message");
+  const website = optionalString(body, "website");
+  const startedAt = body.startedAt;
+
+  if (
+    !name ||
+    !email ||
+    !message ||
+    website === null ||
+    typeof startedAt !== "number" ||
+    !Number.isFinite(startedAt)
+  ) {
+    return sendJson(res, 400, { error: "Invalid message details." });
+  }
+
+  if (website) {
+    return sendJson(res, 400, { error: "Unable to submit message." });
+  }
+
+  const elapsedTime = Date.now() - startedAt;
+  if (elapsedTime < MIN_COMPLETION_TIME_MS) {
+    return sendJson(res, 400, { error: "Unable to submit message." });
+  }
+
+  if (
+    name.length > LIMITS.name ||
+    email.length > LIMITS.email ||
+    message.length < MIN_MESSAGE_LENGTH ||
+    message.length > LIMITS.message ||
+    !emailPattern.test(email)
+  ) {
+    return sendJson(res, 400, { error: "Invalid message details." });
+  }
+
+  const webhookUrl = process.env.N8N_PORTFOLIO_CONTACT_WEBHOOK_URL;
+  const webhookSecret = process.env.N8N_PORTFOLIO_CONTACT_SECRET;
+  if (!webhookUrl || !webhookSecret) {
+    console.error("Portfolio contact service is not configured.");
+    return sendJson(res, 503, { error: "Unable to submit message." });
+  }
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), WEBHOOK_TIMEOUT_MS);
+
+  try {
+    const webhookResponse = await fetch(webhookUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Portfolio-Secret": webhookSecret,
+      },
+      body: JSON.stringify({
+        name,
+        email,
+        message,
+        submittedAt: new Date().toISOString(),
+        source: "portfolio-website-inquiry",
+      }),
+      signal: controller.signal,
+    });
+
+    if (!webhookResponse.ok) {
+      console.error(
+        "Portfolio contact service returned a non-success status:",
+        webhookResponse.status,
+      );
+      return sendJson(res, 502, { error: "Unable to submit message." });
+    }
+
+    return sendJson(res, 200, { ok: true });
+  } catch (error: unknown) {
+    if (error instanceof Error && error.name === "AbortError") {
+      console.error("Portfolio contact service timed out.");
+      return sendJson(res, 504, { error: "Unable to submit message." });
+    }
+
+    console.error("Portfolio contact service request failed.");
+    return sendJson(res, 502, { error: "Unable to submit message." });
+  } finally {
+    clearTimeout(timeout);
+  }
+}

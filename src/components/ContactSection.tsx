@@ -1,41 +1,134 @@
 // src/components/ContactSection.tsx
-import emailjs from "@emailjs/browser";
 import { Linkedin, Mail, MapPin, Phone, Send } from "lucide-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "../lib/utils";
 
+type FormValues = {
+  name: string;
+  email: string;
+  message: string;
+  website: string;
+};
+
+type VisibleField = Exclude<keyof FormValues, "website">;
+type FormErrors = Partial<Record<VisibleField, string>>;
+
+const initialValues: FormValues = {
+  name: "",
+  email: "",
+  message: "",
+  website: "",
+};
+
+const fieldOrder: VisibleField[] = ["name", "email", "message"];
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function validateForm(values: FormValues): FormErrors {
+  const errors: FormErrors = {};
+  const name = values.name.trim();
+  const email = values.email.trim();
+  const message = values.message.trim();
+
+  if (!name) {
+    errors.name = "Please enter your name.";
+  } else if (name.length > 100) {
+    errors.name = "Please keep your name under 100 characters.";
+  }
+
+  if (!email) {
+    errors.email = "Please enter your email address.";
+  } else if (email.length > 254 || !emailPattern.test(email)) {
+    errors.email = "Please enter a valid email address.";
+  }
+
+  if (!message) {
+    errors.message = "Please enter a message.";
+  } else if (message.length < 10) {
+    errors.message = "Please add a little more detail.";
+  } else if (message.length > 5000) {
+    errors.message = "Please keep your message under 5,000 characters.";
+  }
+
+  return errors;
+}
+
 const ContactSection: React.FC = () => {
-  const form = useRef<HTMLFormElement>(null);
+  const [values, setValues] = useState<FormValues>(initialValues);
+  const [errors, setErrors] = useState<FormErrors>({});
   const [loading, setLoading] = useState<boolean>(false);
   const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const submissionInProgress = useRef(false);
+  const startedAt = useRef(Date.now());
+  const feedback = useRef<HTMLDivElement>(null);
 
-  const sendEmail = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!form.current) return;
+  useEffect(() => {
+    if (success || error) feedback.current?.focus();
+  }, [success, error]);
 
-    setLoading(true);
+  const updateField = (field: keyof FormValues, value: string) => {
+    setValues((current) => ({ ...current, [field]: value }));
     setSuccess(null);
     setError(null);
 
+    if (field !== "website") {
+      setErrors((current) => ({ ...current, [field]: undefined }));
+    }
+  };
+
+  const sendMessage = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (submissionInProgress.current) return;
+
+    const nextErrors = validateForm(values);
+    setErrors(nextErrors);
+    setSuccess(null);
+    setError(null);
+
+    const firstInvalidField = fieldOrder.find((field) => nextErrors[field]);
+    if (firstInvalidField) {
+      document.getElementById(`contact-${firstInvalidField}`)?.focus();
+      return;
+    }
+
+    submissionInProgress.current = true;
+    setLoading(true);
+
     try {
-      await emailjs.sendForm(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        form.current,
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
-      );
+      const response = await fetch("/api/portfolio-contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: values.name.trim(),
+          email: values.email.trim(),
+          message: values.message.trim(),
+          website: values.website,
+          startedAt: startedAt.current,
+        }),
+      });
+
+      if (!response.ok) throw new Error("Portfolio contact submission failed");
+
       setSuccess("Message sent successfully!");
-      form.current.reset();
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        console.error(err.message);
-        setError("Something went wrong. Please try again later.");
-      }
+      setValues(initialValues);
+      startedAt.current = Date.now();
+    } catch {
+      setError("We could not send your message right now.");
     } finally {
+      submissionInProgress.current = false;
       setLoading(false);
     }
   };
+
+  const fieldClassName =
+    "w-full placeholder:text-muted-foreground px-4 py-3 rounded-md border bg-background border-input focus:outline-hidden focus:ring-2 focus:ring-primary disabled:cursor-not-allowed disabled:opacity-65";
+
+  const errorProps = (field: VisibleField) => ({
+    "aria-describedby": errors[field] ? `contact-${field}-error` : undefined,
+    "aria-invalid": errors[field] ? (true as const) : undefined,
+  });
 
   return (
     <section className="py-12 px-4 relative bg-secondary/10">
@@ -107,59 +200,123 @@ const ContactSection: React.FC = () => {
               aria-busy={loading}
               id="contact"
               className="space-y-6"
-              ref={form}
-              onSubmit={sendEmail}
+              noValidate
+              onSubmit={sendMessage}
             >
               <div>
                 <label
                   className="block text-sm font-medium mb-2"
-                  htmlFor="name"
+                  htmlFor="contact-name"
                 >
                   Your Name
                 </label>
                 <input
-                  className="w-full placeholder:text-muted-foreground px-4 py-3 rounded-md border bg-background border-input focus:outline-hidden focus:ring-2 focus:ring-primary"
+                  {...errorProps("name")}
+                  className={fieldClassName}
                   type="text"
-                  id="name"
+                  id="contact-name"
                   name="name"
+                  autoComplete="name"
                   required
+                  maxLength={100}
                   placeholder="John Smith"
                   disabled={loading}
+                  value={values.name}
+                  onChange={(event) => updateField("name", event.target.value)}
                 />
+                {errors.name && (
+                  <p
+                    id="contact-name-error"
+                    className="mt-2 text-sm text-red-700 dark:text-red-300"
+                  >
+                    {errors.name}
+                  </p>
+                )}
               </div>
 
               <div>
                 <label
                   className="block text-sm font-medium mb-2"
-                  htmlFor="email"
+                  htmlFor="contact-email"
                 >
                   Your Email
                 </label>
                 <input
-                  className="w-full placeholder:text-muted-foreground px-4 py-3 rounded-md border border-input bg-background focus:outline-hidden focus:ring-2 focus:ring-primary"
+                  {...errorProps("email")}
+                  className={fieldClassName}
                   type="email"
-                  id="email"
+                  id="contact-email"
                   name="email"
+                  inputMode="email"
+                  autoComplete="email"
                   required
+                  maxLength={254}
                   placeholder="johnsmith@gmail.com"
                   disabled={loading}
+                  value={values.email}
+                  onChange={(event) =>
+                    updateField("email", event.target.value)
+                  }
                 />
+                {errors.email && (
+                  <p
+                    id="contact-email-error"
+                    className="mt-2 text-sm text-red-700 dark:text-red-300"
+                  >
+                    {errors.email}
+                  </p>
+                )}
               </div>
 
               <div>
                 <label
                   className="block text-sm font-medium mb-2"
-                  htmlFor="message"
+                  htmlFor="contact-message"
                 >
                   Your Message
                 </label>
                 <textarea
-                  className="w-full placeholder:text-muted-foreground px-4 py-3 rounded-md border border-input bg-background focus:outline-hidden focus:ring-2 focus:ring-primary resize-none"
-                  id="message"
+                  {...errorProps("message")}
+                  className={`${fieldClassName} resize-y`}
+                  id="contact-message"
                   name="message"
+                  autoComplete="off"
                   required
+                  minLength={10}
+                  maxLength={5000}
+                  rows={4}
                   placeholder="Hello, this is a very nice website ;)"
                   disabled={loading}
+                  value={values.message}
+                  onChange={(event) =>
+                    updateField("message", event.target.value)
+                  }
+                />
+                {errors.message && (
+                  <p
+                    id="contact-message-error"
+                    className="mt-2 text-sm text-red-700 dark:text-red-300"
+                  >
+                    {errors.message}
+                  </p>
+                )}
+              </div>
+
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute left-[-10000px] top-auto h-px w-px overflow-hidden"
+              >
+                <label htmlFor="contact-website">Website</label>
+                <input
+                  id="contact-website"
+                  name="website"
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={values.website}
+                  onChange={(event) =>
+                    updateField("website", event.target.value)
+                  }
                 />
               </div>
 
@@ -171,11 +328,34 @@ const ContactSection: React.FC = () => {
                 disabled={loading}
               >
                 {loading ? "Sending..." : "Send Message"}
-                <Send size={16} />
+                <Send aria-hidden="true" size={16} />
               </button>
 
-              {success && <p className="text-primary mt-2">{success}</p>}
-              {error && <p className="text-red-500 mt-2">{error}</p>}
+              <div
+                ref={feedback}
+                tabIndex={-1}
+                aria-live="polite"
+                aria-atomic="true"
+                className="min-h-6 outline-none"
+              >
+                {success && (
+                  <p role="status" className="text-primary">
+                    {success}
+                  </p>
+                )}
+                {error && (
+                  <p role="alert" className="text-red-700 dark:text-red-300">
+                    {error} You can also email me at{" "}
+                    <a
+                      className="font-semibold underline underline-offset-4"
+                      href="mailto:taylor@devbytaylor.com"
+                    >
+                      taylor@devbytaylor.com
+                    </a>
+                    .
+                  </p>
+                )}
+              </div>
             </form>
           </div>
         </div>
