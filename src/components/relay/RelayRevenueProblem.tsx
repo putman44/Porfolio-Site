@@ -1,3 +1,4 @@
+// src/components/relay/RelayRevenueProblem.tsx
 import { Clock3, EyeOff, Inbox, Shuffle } from "lucide-react";
 
 const problems = [

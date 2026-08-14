@@ -166,10 +166,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const phone = phoneInput ? normalizePhone(phoneInput) : "";
-  if (
-    phoneInput &&
-    (!phonePattern.test(phoneInput) || phone.length !== 10)
-  ) {
+  if (phoneInput && (!phonePattern.test(phoneInput) || phone.length !== 10)) {
     return sendJson(res, 400, { error: "Invalid inquiry details." });
   }
 

@@ -1,3 +1,4 @@
+// src/components/dev-by-taylor/DevByTaylorHero.tsx
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Braces, Boxes, Workflow } from "lucide-react";
 import { Link } from "react-router-dom";

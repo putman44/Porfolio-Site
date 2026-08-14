@@ -1,3 +1,4 @@
+// src/components/dev-by-taylor/DevByTaylorFooter.tsx
 import { ArrowUpRight, Github, Linkedin } from "lucide-react";
 import { Link } from "react-router-dom";
 

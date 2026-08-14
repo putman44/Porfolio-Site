@@ -1,3 +1,4 @@
+// src/components/relay/RelayHowItWorks.tsx
 import {
   BellRing,
   FolderKanban,

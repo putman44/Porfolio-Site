@@ -1,3 +1,4 @@
+// src/components/relay/RelayWidgetEmbed.tsx
 import { useEffect, useRef, useState } from "react";
 
 type RelayWidgetConfig = {

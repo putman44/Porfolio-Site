@@ -1,3 +1,4 @@
+// src/context/IsDarkModeContext.tsx
 import { createContext } from "react";
 
 export interface ThemeContextType {

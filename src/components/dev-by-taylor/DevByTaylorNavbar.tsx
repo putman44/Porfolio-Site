@@ -1,3 +1,4 @@
+// src/components/dev-by-taylor/DevByTaylorNavbar.tsx
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
