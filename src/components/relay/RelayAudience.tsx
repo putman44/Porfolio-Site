@@ -26,8 +26,9 @@ const RelayAudience: React.FC = () => {
             Built for service businesses with inquiries already coming in.
           </h2>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-foreground/68">
-            Relay is most useful when a business already invests in generating
-            leads but has gaps in response, routing, follow-up, or visibility.
+            Relay is built for home-service businesses with meaningful inbound
+            lead volume, including HVAC, plumbing, roofing, electrical,
+            remodeling, landscaping, pest control, and similar companies.
           </p>
           <div className="mt-8 flex flex-wrap gap-2.5" aria-label="Example service industries">
             {serviceExamples.map((service) => (
@@ -53,7 +54,7 @@ const RelayAudience: React.FC = () => {
           </h3>
           <ul className="mt-6 space-y-4 text-foreground/70">
             {[
-              "Website inquiries are meaningful sales opportunities.",
+              "You already have meaningful inbound lead volume.",
               "More than one person may need to see or act on a lead.",
               "Follow-up quality changes depending on how busy the team is.",
               "It is difficult to see where inquiries stall or disappear.",

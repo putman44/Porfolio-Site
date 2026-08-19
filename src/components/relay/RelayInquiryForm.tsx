@@ -244,10 +244,10 @@ const RelayInquiryForm: React.FC = () => {
         <>
           <div className="mb-7">
             <p className="font-mono text-xs font-bold uppercase tracking-[0.16em] text-emerald-700 dark:text-emerald-300">
-              Relay inquiry
+              Relay Lead-Flow Review
             </p>
             <h3 className="mt-2 text-2xl font-black tracking-[-0.03em] sm:text-3xl">
-              Tell me how you handle new leads today.
+              Start with your current lead flow.
             </h3>
           </div>
 
@@ -424,7 +424,7 @@ const RelayInquiryForm: React.FC = () => {
               disabled={submitting}
               className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-full bg-emerald-600 px-7 py-3 font-semibold text-white shadow-[0_12px_38px_rgba(5,150,105,0.18)] transition-all hover:-translate-y-0.5 hover:bg-emerald-700 hover:shadow-[0_16px_44px_rgba(5,150,105,0.26)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-500 disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-65 dark:bg-emerald-500 dark:text-emerald-950 dark:hover:bg-emerald-400"
             >
-              {submitting ? "Sending inquiry…" : "Send Relay inquiry"}
+              {submitting ? "Sending request…" : "Request a Relay Lead-Flow Review"}
               <Send aria-hidden="true" size={18} />
             </button>
 
@@ -443,7 +443,7 @@ const RelayInquiryForm: React.FC = () => {
         Prefer email? Reach Taylor at{" "}
         <a
           className="font-semibold text-emerald-700 underline decoration-emerald-500/40 underline-offset-4 transition hover:text-emerald-800 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-500 dark:text-emerald-300 dark:hover:text-emerald-200"
-          href="mailto:automation@devbytaylor.com?subject=Relay%20lead%20process"
+          href="mailto:automation@devbytaylor.com?subject=Relay%20Lead-Flow%20Review"
         >
           automation@devbytaylor.com
         </a>

@@ -10,10 +10,10 @@ import {
 } from "lucide-react";
 
 const leadJourney = [
-  { label: "Inquiry captured", icon: Inbox },
-  { label: "Team alerted", icon: BellRing },
-  { label: "Lead organized", icon: ListChecks },
-  { label: "Follow-up kept moving", icon: RefreshCw },
+  { label: "Demand captured", icon: Inbox },
+  { label: "Customer acknowledged", icon: BellRing },
+  { label: "Lead organized and routed", icon: ListChecks },
+  { label: "Follow-through kept moving", icon: RefreshCw },
 ];
 
 const RelayHero: React.FC = () => {
@@ -29,35 +29,37 @@ const RelayHero: React.FC = () => {
       >
         <p className="mb-7 flex items-center gap-3 text-xs font-bold uppercase tracking-[0.22em] text-emerald-700 sm:text-sm dark:text-emerald-300">
           <span className="h-px w-8 bg-emerald-500" aria-hidden="true" />
-          Relay · Revenue follow-up systems
+          Relay · Lead Response &amp; Recovery
         </p>
         <h1 className="max-w-4xl text-5xl font-black leading-[0.96] tracking-[-0.06em] sm:text-6xl lg:text-7xl xl:text-[5.25rem]">
-          Stop losing leads you already paid for<span className="text-primary">.</span>
+          Capture demand. Respond fast. Follow through. Prove the value<span className="text-primary">.</span>
         </h1>
         <p className="mt-8 max-w-2xl text-lg leading-relaxed text-foreground/72 sm:text-xl">
-          Relay helps service businesses respond quickly, organize incoming
-          inquiries, and follow up consistently so warm opportunities do not
-          quietly disappear.
+          Relay is a Lead Response &amp; Recovery system for service businesses.
+          Your business already spends time and money generating leads. Relay
+          helps make sure those opportunities are captured, acknowledged,
+          organized, brought to the right person’s attention, and followed up
+          with consistently.
         </p>
         <div className="mt-10 flex flex-col gap-4 sm:flex-row">
           <a
-            href="#demo"
+            href="#relay-contact"
             className="group inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-emerald-600 px-7 py-3 font-semibold text-white shadow-[0_12px_38px_rgba(5,150,105,0.2)] transition-all hover:-translate-y-0.5 hover:bg-emerald-700 hover:shadow-[0_16px_44px_rgba(5,150,105,0.3)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-500 dark:bg-emerald-500 dark:text-emerald-950 dark:hover:bg-emerald-400"
           >
-            Try the Relay demo
-            <ArrowDown
-              size={18}
-              className="transition-transform group-hover:translate-y-1"
-            />
-          </a>
-          <a
-            href="#relay-contact"
-            className="group inline-flex min-h-12 items-center justify-center gap-3 rounded-full border border-foreground/20 bg-background/50 px-7 py-3 font-semibold transition-all hover:-translate-y-0.5 hover:border-foreground/40 hover:bg-foreground/5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
-          >
-            Discuss your lead process
+            Start with a Relay Lead-Flow Review
             <ArrowRight
               size={18}
               className="transition-transform group-hover:translate-x-1"
+            />
+          </a>
+          <a
+            href="#demo"
+            className="group inline-flex min-h-12 items-center justify-center gap-3 rounded-full border border-foreground/20 bg-background/50 px-7 py-3 font-semibold transition-all hover:-translate-y-0.5 hover:border-foreground/40 hover:bg-foreground/5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+          >
+            See a lead capture example
+            <ArrowDown
+              size={18}
+              className="transition-transform group-hover:translate-y-1"
             />
           </a>
         </div>
@@ -75,7 +77,7 @@ const RelayHero: React.FC = () => {
           <div className="flex items-center justify-between border-b border-foreground/10 pb-5">
             <div>
               <p className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-emerald-700 dark:text-emerald-300">
-                New website inquiry
+                New inbound lead
               </p>
               <p className="mt-2 font-bold">Service request received</p>
             </div>
@@ -107,7 +109,7 @@ const RelayHero: React.FC = () => {
           </ol>
 
           <p className="mt-6 border-t border-foreground/10 pt-5 font-mono text-xs uppercase tracking-[0.14em] text-foreground/55">
-            A clear path from inquiry to next action
+            Captured, acknowledged, routed, and followed through
           </p>
         </div>
       </motion.div>

@@ -38,12 +38,13 @@ const RelayRevenueProblem: React.FC = () => {
               The revenue problem
             </p>
             <h2 className="max-w-xl text-4xl font-black tracking-[-0.045em] sm:text-5xl">
-              Generating the lead is only the first step.
+              You already worked and paid to create the demand.
             </h2>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-foreground/68">
-              Businesses invest in getting the phone to ring and the form to be
-              filled out. The opportunity is still at risk when the process
-              after that moment is slow, scattered, or unclear.
+              The opportunity is still at risk when the process after first
+              contact is slow, scattered, or unclear. Relay strengthens what
+              happens next so more of that existing demand gets a consistent
+              response and follow-through.
             </p>
           </div>
 

@@ -29,11 +29,11 @@ const ServiceBusinessPreview: React.FC = () => {
             Request service
           </p>
           <h3 className="mt-5 text-3xl font-black leading-tight tracking-[-0.035em]">
-            Show Relay what a new inquiry looks like.
+            See how one website inquiry can be captured.
           </h3>
           <p className="mt-5 leading-relaxed text-teal-50/80">
             Fill out the example form to experience validation, capture, and
-            the simulated confirmation a visitor would see.
+            the immediate acknowledgment a potential customer would see.
           </p>
           <div className="mt-8 border-t border-white/20 pt-6 text-sm text-teal-100/80">
             Use sample information only. Nothing is sent to a real service

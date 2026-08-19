@@ -41,7 +41,7 @@ const demoConfig: RelayWidgetConfig = {
   eyebrow: "Interactive Relay demo",
   headline: "How can we help?",
   intro:
-    "Share a few details to preview how Relay captures a new service inquiry.",
+    "Share a few details to preview one way an inbound service inquiry can be captured.",
   services: [
     "Cooling repair",
     "Heating repair",

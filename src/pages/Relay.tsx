@@ -14,8 +14,8 @@ const Relay: React.FC = () => {
   return (
     <div className="relative min-h-screen overflow-hidden bg-background text-left text-foreground">
       <Seo
-        title="Relay | Lead Response & Follow-Up for Service Businesses"
-        description="Relay helps service businesses capture incoming leads, respond quickly, stay organized, and follow up consistently so opportunities do not quietly disappear."
+        title="Relay | Lead Response & Recovery for Service Businesses"
+        description="Relay helps service businesses capture demand, respond fast, follow through consistently, and prove the value of the leads they already generate."
         canonical="https://devbytaylor.com/relay"
       />
       <div

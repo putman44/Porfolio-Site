@@ -47,8 +47,14 @@ const RelayHowItWorks: React.FC = () => {
             id="relay-process"
             className="text-4xl font-black tracking-[-0.045em] sm:text-5xl"
           >
-            A dependable path for every new inquiry.
+            A dependable path through the systems you already use.
           </h2>
+          <p className="mt-6 max-w-3xl text-lg leading-relaxed text-foreground/68">
+            Relay can work with website forms, existing inquiry systems, staff
+            intake, supported phone or call-tracking systems, and CRM or
+            field-service platforms. The exact connections are confirmed and
+            scoped around your current lead flow.
+          </p>
         </div>
 
         <ol className="relative grid gap-4 md:grid-cols-5">

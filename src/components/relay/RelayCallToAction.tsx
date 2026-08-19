@@ -14,20 +14,20 @@ const RelayCallToAction: React.FC = () => {
           <div className="relative grid items-start gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
             <div className="max-w-3xl lg:sticky lg:top-28">
               <p className="mb-5 text-xs font-bold uppercase tracking-[0.2em] text-emerald-700 dark:text-emerald-300">
-                Find the leak in your lead process
+                Relay Lead-Flow Review
               </p>
               <h2 className="text-4xl font-black leading-tight tracking-[-0.045em] sm:text-5xl lg:text-6xl">
-                Walk me through what happens when a new lead comes in.
+                Where do your new customers come from, and what happens after they contact you?
               </h2>
               <p className="mt-6 max-w-2xl text-lg leading-relaxed text-foreground/68">
-                We can map the current handoffs, follow-up gaps, and visibility
-                problems before deciding whether Relay is a useful fit.
+                We’ll map your current sources, handoffs, follow-up gaps, and
+                systems before deciding whether Relay is a useful fit.
               </p>
               <a
                 href="#relay-contact"
                 className="group mt-9 inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-primary px-7 py-3 font-semibold text-primary-foreground transition-all hover:-translate-y-0.5 hover:shadow-[0_12px_35px_hsl(var(--primary)/0.25)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
               >
-                Discuss your lead process
+                Start with a Relay Lead-Flow Review
                 <ArrowUpRight
                   size={18}
                   className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
