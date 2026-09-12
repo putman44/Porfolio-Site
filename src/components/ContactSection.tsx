@@ -165,9 +165,9 @@ const ContactSection: React.FC = () => {
                 <h4 className="font-medium hidden md:block">Phone: </h4>
                 <a
                   className="truncate hover:text-primary transition-colors"
-                  href="tel:+14807190795"
+                  href="tel:+15054289180"
                 >
-                  +1 (480) 719-0795
+                  +1 (505) 428-9180
                 </a>
               </div>
 
@@ -254,9 +254,7 @@ const ContactSection: React.FC = () => {
                   placeholder="johnsmith@gmail.com"
                   disabled={loading}
                   value={values.email}
-                  onChange={(event) =>
-                    updateField("email", event.target.value)
-                  }
+                  onChange={(event) => updateField("email", event.target.value)}
                 />
                 {errors.email && (
                   <p
