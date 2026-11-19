@@ -21,7 +21,7 @@ const projects: Project[] = [
     image: "FieldForce.png",
     tags: ["React", "Python", "PostgreSQL", "SQLAlchemy", "JWT"],
     demoUrl: "",
-    githubUrl: "",
+    githubUrl: "https://github.com/E-Y-J/TR42-Vendor",
   },
   {
     id: 2,
